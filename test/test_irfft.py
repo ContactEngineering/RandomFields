@@ -1,4 +1,3 @@
-
 """
 
 tests if irfft is already imposing the hermitian-symmetries the way we expect
@@ -23,8 +22,8 @@ numpy's irfftn
 """
 import pytest
 import numpy as np
-import matplotlib.pyplot as plt
 from RandomFields.Generation.fourier_synthesis import _irfft2, _irfft3
+
 
 def test_rfft_deletes_imag_part_where_spectrum_should_be_real():
     original_data = np.random.uniform(size=4)
@@ -47,6 +46,7 @@ def test_rfft_deletes_imag_part_where_spectrum_should_be_real():
     back = np.fft.irfft(spectrum)
     np.testing.assert_allclose(original_data, back)
 
+
 def test_ifft_realpart_is_not_rfft():
     """
     rfft doesn't use the negative part of the spectrum
@@ -62,11 +62,10 @@ def test_ifft_realpart_is_not_rfft():
     # inside of a irfft2, the q=0 line that should have a real back transform.
     # does the ifft yield the correct real part also if the symmetry is broken ?
 
-
     spectrum = np.fft.fft(original_data)
     # we hope that the negative frequencies are considered as the
-    #spectrum[-2] = np.random.uniform() + 1j * np.random.uniform()
-    back_irfft = np.fft.irfft(spectrum[:n//2 + 1], n=n)
+    # spectrum[-2] = np.random.uniform() + 1j * np.random.uniform()
+    back_irfft = np.fft.irfft(spectrum[:n // 2 + 1], n=n)
     back_ifft = np.fft.ifft(spectrum).real
     np.testing.assert_allclose(back_ifft.real, back_irfft)
 
@@ -74,14 +73,15 @@ def test_ifft_realpart_is_not_rfft():
         spectrum = np.fft.fft(original_data)
         # we hope that the negative frequencies are considered as the
         spectrum[-2] = np.random.uniform() + 1j * np.random.uniform()
-        back_irfft = np.fft.irfft(spectrum[:n//2 + 1], n=n)
+        back_irfft = np.fft.irfft(spectrum[:n // 2 + 1], n=n)
         back_ifft = np.fft.ifft(spectrum).real
         np.testing.assert_allclose(back_ifft.real, back_irfft)
 
+
 # %% Test our fft
 
-@pytest.mark.parametrize("nx", (3,4,8,9))
-@pytest.mark.parametrize("ny", (3,4,8,9))
+@pytest.mark.parametrize("nx", (3, 4, 8, 9))
+@pytest.mark.parametrize("ny", (3, 4, 8, 9))
 def test_cycle2d(nx, ny):
     real_space_original = np.random.normal(size=(nx, ny))
 
@@ -90,12 +90,13 @@ def test_cycle2d(nx, ny):
 
     real_space_back_transform = np.zeros_like(real_space_original)
     _irfft2(spectrum, real_space_back_transform)
-    
+
     np.testing.assert_allclose(real_space_back_transform, real_space_original)
 
-@pytest.mark.parametrize("nx", (3,4,8,9))
-@pytest.mark.parametrize("ny", (3,4,8,9))
-@pytest.mark.parametrize("nz", (3,4,8,9))
+
+@pytest.mark.parametrize("nx", (3, 4, 8, 9))
+@pytest.mark.parametrize("ny", (3, 4, 8, 9))
+@pytest.mark.parametrize("nz", (3, 4, 8, 9))
 def test_cycle3d(nx, ny, nz):
     real_space_original = np.random.normal(size=(nx, ny, nz))
 
@@ -107,21 +108,22 @@ def test_cycle3d(nx, ny, nz):
 
     np.testing.assert_allclose(real_space_back_transform, real_space_original)
 
+
 def test_minimal_spectrum_unchanged_2D():
     """
-    I call minimal_spectrum the part that contains no duplicates due to hermitian
-    symmetry
+    I call minimal_spectrum the part that contains no duplicates due
+    to hermitian symmetry
 
-    We request that in our implementation q[0, qy<0] is discarded amd only q[0, qy>0]
-    is kept.
+    We request that in our implementation q[0, qy<0] is discarded amd only
+    q[0, qy>0] is kept.
     """
 
     nx = 3
     ny = 3
 
-    karr = np.random.normal(size=(nx//2+1, ny))
+    karr = np.random.normal(size=(nx // 2 + 1, ny))
     biased_karr = karr.copy()
-    biased_karr[0, -1] = np.random.normal() # changing this value shouldn't affect the result
+    biased_karr[0, -1] = np.random.normal()  # changing this value shouldn't affect the result
 
     real = np.zeros((nx, ny))
     real_biased = np.zeros((nx, ny))
@@ -134,10 +136,10 @@ def test_minimal_spectrum_unchanged_2D():
     nx = 4
     ny = 3
 
-    karr = np.random.normal(size=(nx//2+1, ny))
+    karr = np.random.normal(size=(nx // 2 + 1, ny))
     biased_karr = karr.copy()
-    biased_karr[0, -1] = np.random.normal() # changing this value shouldn't affect the result
-    biased_karr[-1, -1] = np.random.normal() # changing this value shouldn't affect the result
+    biased_karr[0, -1] = np.random.normal()  # changing this value shouldn't affect the result
+    biased_karr[-1, -1] = np.random.normal()  # changing this value shouldn't affect the result
 
     real = np.zeros((nx, ny))
     real_biased = np.zeros((nx, ny))
@@ -152,10 +154,12 @@ def test_minimal_spectrum_unchanged_2D():
         nx = 4
         ny = 3
 
-        karr = np.random.normal(size=(nx//2+1, ny))
+        karr = np.random.normal(size=(nx // 2 + 1, ny))
         biased_karr = karr.copy()
-        biased_karr[0, -1] = np.random.normal() # changing this value shouldn't affect the result
-        biased_karr[-1, -1] = np.random.normal() # changing this value shouldn't affect the result
+        biased_karr[0, -1] = np.random.normal()  # changing this value
+        #                                          shouldn't affect the result
+        biased_karr[-1, -1] = np.random.normal()  # changing this value
+        #                                           shouldn't affect the result
 
         real = np.zeros((nx, ny))
         real_biased = np.zeros((nx, ny))
@@ -165,14 +169,15 @@ def test_minimal_spectrum_unchanged_2D():
 
         np.testing.assert_allclose(real_biased, real)
 
+
 def test_minimal_spectrum_unchanged_3D():
     nx = 3
     ny = 3
     nz = 3
 
-    karr = np.random.normal(size=(nx//2+1, ny, nz))
+    karr = np.random.normal(size=(nx // 2 + 1, ny, nz))
     biased_karr = karr.copy()
-    biased_karr[0, -1, :] = np.random.normal(size=nz) # changing this value shouldn't affect the result
+    biased_karr[0, -1, :] = np.random.normal(size=nz)  # changing this value shouldn't affect the result
 
     real = np.zeros((nx, ny, nz))
     real_biased = np.zeros((nx, ny, nz))
@@ -186,10 +191,10 @@ def test_minimal_spectrum_unchanged_3D():
     ny = 3
     nz = 3
 
-    karr = np.random.normal(size=(nx//2+1, ny, nz))
+    karr = np.random.normal(size=(nx // 2 + 1, ny, nz))
     biased_karr = karr.copy()
-    biased_karr[0, -1, :] = np.random.normal(size=nz) # changing this value shouldn't affect the result
-    biased_karr[-1, -1, :] = np.random.normal(size=nz) # changing this value shouldn't affect the result
+    biased_karr[0, -1, :] = np.random.normal(size=nz)  # changing this value shouldn't affect the result
+    biased_karr[-1, -1, :] = np.random.normal(size=nz)  # changing this value shouldn't affect the result
 
     real = np.zeros((nx, ny, nz))
     real_biased = np.zeros((nx, ny, nz))
