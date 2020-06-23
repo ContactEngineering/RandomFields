@@ -220,9 +220,9 @@ def fourier_synthesis(nb_grid_pts, physical_sizes, hurst,
     Parameters
     ----------
     nb_grid_pts : array_like
-        Resolution of the topography map.
+        Resolution of the field.
     physical_sizes : array_like
-        Physical physical_sizes of the topography map.
+        Physical sizes of the periodic box.
     hurst : float
         Hurst exponent.
     rms_height : float
@@ -257,8 +257,8 @@ def fourier_synthesis(nb_grid_pts, physical_sizes, hurst,
 
     Returns
     -------
-    topography : UniformTopography or UniformLineScan
-        The topography.
+    array: np.array
+        random field values
     """
     dim = len(nb_grid_pts)
     max_dim = 3
@@ -328,11 +328,9 @@ def fourier_synthesis(nb_grid_pts, physical_sizes, hurst,
                 mask = q_sq < q_min ** 2
                 karr[mask, y, z] = (rolloff * ran[mask] *
                                     q_min ** (-((dim * 0.5) + hurst)))
-    print(karr.shape)
 
     if dim == 1:
         rarr = np.fft.irfft(karr.T)
     else:
         _irfft23(karr, rarr)
-    print(rarr.shape)
     return rarr
