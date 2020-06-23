@@ -1,6 +1,6 @@
-from .Random_Field_fourier_synthesis import fourier_synthesis
+from RandomFields.Generation import fourier_synthesis
 
-from .PyCo.SurfaceAnalysis import CharacterisePeriodicSurface
+from RandomFields.Analysis.SurfaceAnalysis import CharacterisePeriodicSurface
 
 from .PyCo.UniformLineScanAndTopography import Topography, UniformLineScan
 # from .common import compute_wavevectors, ifftn

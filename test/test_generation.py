@@ -1,4 +1,4 @@
-from .Random_Field_fourier_synthesis import fourier_synthesis
+from RandomFields.Generation import fourier_synthesis
 
 from .PyCo.UniformLineScanAndTopography import Topography, UniformLineScan
 from .PyCo.HeightContainer import UniformTopographyInterface

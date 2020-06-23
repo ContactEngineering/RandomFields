@@ -24,7 +24,7 @@ numpy's irfftn
 import pytest
 import numpy as np
 import matplotlib.pyplot as plt
-from Random_Field_fourier_synthesis import _irfft2, _irfft3
+from RandomFields.Generation.fourier_synthesis import _irfft2, _irfft3
 
 def test_rfft_deletes_imag_part_where_spectrum_should_be_real():
     original_data = np.random.uniform(size=4)
