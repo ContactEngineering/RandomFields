@@ -68,7 +68,7 @@ scripts = []
 # ]
 
 setup(
-    name="SurfaceTopography",
+    name="RandomFields",
     # cmdclass={'build_ext': CustomBuildExtCommand},
     scripts=scripts,
     packages=find_packages(),
