@@ -46,14 +46,14 @@ def _irfft2(karr, rarr):
     nx, ny = arr.shape
 
     # This makes sure that no extraneous elements of the first row is utilized
-    arr[0, :] = np.fft.irfft(arr[0, 0:ny//2+1], n=ny)
+    arr[0, :] = np.fft.irfft(arr[0, 0:ny // 2 + 1], n=ny)
 
     if rx % 2 == 0:
         """
         This makes sure that no extraneous elements of the last row is utilized
         in case of having even number of rows
         """
-        arr[-1, :] = np.fft.irfft(arr[-1, 0:ny//2+1], n=ny)
+        arr[-1, :] = np.fft.irfft(arr[-1, 0:ny // 2 + 1], n=ny)
     else:
         arr[-1, :] = np.fft.ifft(arr[-1, :])
 
@@ -85,14 +85,14 @@ def _irfft3(karr, rarr):
     arr = np.zeros_like(karr)
 
     # This makes sure no extraneous elements of the first plane is utilized
-    _irfft2(karr[0, 0:ny//2+1, :], arr[0, :, :])
+    _irfft2(karr[0, 0:ny // 2 + 1, :], arr[0, :, :])
 
     if rx % 2 == 0:
         """
         This makes sure no extraneous elements of the last plane is utilized
         in case of having even number of rows
         """
-        _irfft2(karr[-1, 0:ny//2+1, :], arr[-1, :, :])
+        _irfft2(karr[-1, 0:ny // 2 + 1, :], arr[-1, :, :])
     else:
         arr[-1, :, :] = np.fft.ifft2(karr[-1, :, :])
 
@@ -282,7 +282,7 @@ def fourier_synthesis(nb_grid_pts, physical_sizes, hurst,
     else:
         # prefactor for the fourier heights
         fac = np.sqrt(c0) * np.prod(nb_grid_pts) / \
-            np.sqrt(np.prod(physical_sizes))
+              np.sqrt(np.prod(physical_sizes))
         #                   ^                       ^ C(q) = c0 q^(-2-2H) = 1 / A |fh(q)|^2
         #                   |                         and h(x,y) = sum(1/A fh(q) e^(iqx)))
         #                   compensate for the np.fft normalisation
