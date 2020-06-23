@@ -1,5 +1,6 @@
 import numpy as np
 
+
 def rms(amplitudes, reduction=np):
     """
     Compute the root mean square amplitude of a field stored on a uniform grid.
@@ -19,4 +20,4 @@ def rms(amplitudes, reduction=np):
     # if topography.is_MPI:
 
     return np.sqrt(
-        reduction.sum((amplitudes - pnp.sum(amplitudes) / n) ** 2) / n)
+        reduction.sum((amplitudes - reduction.sum(amplitudes) / n) ** 2) / n)

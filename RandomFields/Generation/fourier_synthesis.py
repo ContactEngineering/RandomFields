@@ -1,5 +1,4 @@
 import numpy as np
-import scipy.stats as stats
 
 
 def _irfft23(karr, rarr):
@@ -110,7 +109,7 @@ def _irfft3(karr, rarr):
 def self_affine_prefactor(dim, nb_grid_pts, physical_sizes, Hurst,
                           rms_height=None, rms_slope=None,
                           short_cutoff=None, long_cutoff=None):
-    """
+    r"""
     Compute prefactor :math:`C_0` for the power-spectrum density of an ideal
     self-affine topography given by
 
@@ -166,7 +165,8 @@ def self_affine_prefactor(dim, nb_grid_pts, physical_sizes, Hurst,
 
     References
     -----------
-    [1]: Jacobs, Junge, Pastewka, Surf. Topgogr.: Metrol. Prop. 5, 013001 (2017)
+    [1]: Jacobs, Junge, Pastewka, Surf. Topgogr.:
+         Metrol. Prop. 5, 013001 (2017)
 
     """
 
@@ -239,8 +239,8 @@ def fourier_synthesis(nb_grid_pts, physical_sizes, hurst,
     rolloff : float
         Value for the power-spectral density (PSD) below the long-wavelength
         cutoff. This multiplies the value at the cutoff, i.e. unit will give a
-        PSD that is flat below the cutoff, zero will give a PSD that is vanishes
-        below cutoff. (Default: 1.0)
+        PSD that is flat below the cutoff, zero will give a PSD that is
+        vanishes below cutoff. (Default: 1.0)
     amplitude_distribution : function
         Function that generates the distribution of amplitudes.
         (Default: np.random.normal)
@@ -249,9 +249,9 @@ def fourier_synthesis(nb_grid_pts, physical_sizes, hurst,
         array will be created as a memory mapped file. This is useful for
         creating very large topography maps. (Default: None)
     kfn : str
-        Name of file that stores the Fourire-space array. If specified, real-space
-        array will be created as a memory mapped file. This is useful for
-        creating very large topography maps. (Default: None)
+        Name of file that stores the Fourire-space array. If specified,
+        real-space array will be created as a memory mapped file.
+        This is useful for creating very large topography maps. (Default: None)
     progress_callback : function(i, n)
         Function that is called to report progress.
 
@@ -281,11 +281,11 @@ def fourier_synthesis(nb_grid_pts, physical_sizes, hurst,
                                     long_cutoff=long_cutoff)
     else:
         # prefactor for the fourier heights
+        # C(q) = c0 q^(-2-2H) = 1 / A |fh(q)|^2
+        # and h(x,y) = sum(1/A fh(q) e^(iqx)))
+        #                    ▼ compensate for the np.fft normalisation
         fac = np.sqrt(c0) * np.prod(nb_grid_pts) / \
               np.sqrt(np.prod(physical_sizes))
-        #                   ^                       ^ C(q) = c0 q^(-2-2H) = 1 / A |fh(q)|^2
-        #                   |                         and h(x,y) = sum(1/A fh(q) e^(iqx)))
-        #                   compensate for the np.fft normalisation
 
     n = np.ones(max_dim, dtype=int)
     s = np.ones(max_dim)
