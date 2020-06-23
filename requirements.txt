@@ -1,0 +1,10 @@
+setuptools
+matplotlib>=1.0.0
+numpy>=1.16.3
+pylint>0.25
+pep8>=0.6
+scipy>=1.2.0
+pytest>=4
+pytest-flake8
+sphinx>=1.8.2
+sphinx_rtd_theme
