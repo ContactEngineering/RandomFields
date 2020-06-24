@@ -52,15 +52,15 @@ def test_ifft_realpart_is_not_rfft():
     rfft doesn't use the negative part of the spectrum
 
     if the negative q part of the spectrum is not the complex conjugate of the
-    positive q part, the ifft will be complex, and the realpart of the ifft will
-    also be different to the rfft
+    positive q part, the ifft will be complex, and the realpart of the ifft
+    will also be different to the rfft
 
     """
     n = 8
     original_data = np.random.uniform(size=n)
 
     # inside of a irfft2, the q=0 line that should have a real back transform.
-    # does the ifft yield the correct real part also if the symmetry is broken ?
+    # does the ifft yield the correct real part also if the symmetry is broken?
 
     spectrum = np.fft.fft(original_data)
     # we hope that the negative frequencies are considered as the
@@ -123,7 +123,8 @@ def test_minimal_spectrum_unchanged_2D():
 
     karr = np.random.normal(size=(nx // 2 + 1, ny))
     biased_karr = karr.copy()
-    biased_karr[0, -1] = np.random.normal()  # changing this value shouldn't affect the result
+    biased_karr[0, -1] = np.random.normal()
+    # changing this value shouldn't affect the result
 
     real = np.zeros((nx, ny))
     real_biased = np.zeros((nx, ny))
@@ -138,8 +139,10 @@ def test_minimal_spectrum_unchanged_2D():
 
     karr = np.random.normal(size=(nx // 2 + 1, ny))
     biased_karr = karr.copy()
-    biased_karr[0, -1] = np.random.normal()  # changing this value shouldn't affect the result
-    biased_karr[-1, -1] = np.random.normal()  # changing this value shouldn't affect the result
+    biased_karr[0, -1] = np.random.normal()
+    # changing this value shouldn't affect the result
+    biased_karr[-1, -1] = np.random.normal()
+    # changing this value shouldn't affect the result
 
     real = np.zeros((nx, ny))
     real_biased = np.zeros((nx, ny))
@@ -177,7 +180,8 @@ def test_minimal_spectrum_unchanged_3D():
 
     karr = np.random.normal(size=(nx // 2 + 1, ny, nz))
     biased_karr = karr.copy()
-    biased_karr[0, -1, :] = np.random.normal(size=nz)  # changing this value shouldn't affect the result
+    biased_karr[0, -1, :] = np.random.normal(size=nz)
+    # changing this value shouldn't affect the result
 
     real = np.zeros((nx, ny, nz))
     real_biased = np.zeros((nx, ny, nz))
@@ -193,8 +197,10 @@ def test_minimal_spectrum_unchanged_3D():
 
     karr = np.random.normal(size=(nx // 2 + 1, ny, nz))
     biased_karr = karr.copy()
-    biased_karr[0, -1, :] = np.random.normal(size=nz)  # changing this value shouldn't affect the result
-    biased_karr[-1, -1, :] = np.random.normal(size=nz)  # changing this value shouldn't affect the result
+    biased_karr[0, -1, :] = np.random.normal(size=nz)
+    # changing this value shouldn't affect the result
+    biased_karr[-1, -1, :] = np.random.normal(size=nz)
+    # changing this value shouldn't affect the result
 
     real = np.zeros((nx, ny, nz))
     real_biased = np.zeros((nx, ny, nz))

@@ -1,6 +1,5 @@
 from RandomFields.Generation import fourier_synthesis
 
-import pytest
 import numpy as np
 from RandomFields.Analysis.scalar_parameters import rms
 
@@ -25,7 +24,7 @@ def test_fourier_synthesis_rms_height_more_wavevectors():
                                        rolloff=0,
                                        long_cutoff=s / 8,
                                        short_cutoff=4 * s / n,
-                                       # amplitude_distribution=lambda n: np.ones(n)
+                                       # amplitude_distribution=lambda n: np.ones(n) # noqa E501
                                        )
 
         realised_rms_heights.append(rms(topography))
@@ -47,29 +46,28 @@ def test_fourier_synthesis_rms_height():
                                        rms_height=rms_height,
                                        long_cutoff=None,
                                        short_cutoff=4 * s / n,
-                                       # amplitude_distribution=lambda n: np.ones(n)
+                                       # amplitude_distribution=lambda n: np.ones(n) # noqa E501
                                        )
         realised_rms_heights.append(rms(topography))
     assert abs(np.mean(realised_rms_heights) - rms_height) / \
-           rms_height < 0.3  # TODO: this is not very accurate !
+        rms_height < 0.3  # TODO: this is not very accurate !
 
 
-def test_fourier_synthesis_1D_input():
+def test_fourier_synthesis_1d_input():
     H = 0.7
     c0 = 1.
 
     n = 512
     s = n * 4.
     ls = 8
-    qs = 2 * np.pi / ls
     np.random.seed(0)
-    topography = fourier_synthesis((n,), (s,),
-                                   H,
-                                   c0=c0,
-                                   long_cutoff=s / 2,
-                                   short_cutoff=ls,
-                                   amplitude_distribution=lambda n: np.ones(n)
-                                   )
+    fourier_synthesis((n,), (s,),
+                      H,
+                      c0=c0,
+                      long_cutoff=s / 2,
+                      short_cutoff=ls,
+                      amplitude_distribution=lambda n: np.ones(n)
+                      )
 
 
 def test_fourier_synthesis_linescan_hrms_more_wavevectors():
@@ -84,7 +82,6 @@ def test_fourier_synthesis_linescan_hrms_more_wavevectors():
     n = 4096
     s = n * 4.
     ls = 8
-    qs = 2 * np.pi / ls
     np.random.seed(0)
     realised_rms_heights = []
     for i in range(50):
@@ -98,6 +95,7 @@ def test_fourier_synthesis_linescan_hrms_more_wavevectors():
         realised_rms_heights.append(rms(t))
     realised_rms_heights = np.array(realised_rms_heights)
     ref_height = hrms
-    # print(np.sqrt(np.mean((realised_rms_heights - np.mean(realised_rms_heights))**2)))
+    # print(np.sqrt(np.mean((realised_rms_heights
+    #                         - np.mean(realised_rms_heights))**2)))
     assert abs(np.mean(realised_rms_heights) -
                ref_height) / ref_height < 0.1  #
