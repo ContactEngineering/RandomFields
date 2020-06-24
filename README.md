@@ -1,3 +1,3 @@
 # RandomFields
 
-This repository generates random fields using Quantitative characterization using spectral analysis
+This repository contains code for generation and analysis of random fields.
