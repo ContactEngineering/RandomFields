@@ -15,7 +15,7 @@ def test_fourier_synthesis_rms_height_more_wavevectors():
     H = 0.74
     rms_height = 7.
     s = 1.
-
+    np.random.seed(0)
     realised_rms_heights = []
     for i in range(100):
         topography = fourier_synthesis((n, n), (s, s),
@@ -38,7 +38,7 @@ def test_fourier_synthesis_rms_height():
     H = 0.74
     rms_height = 7.
     s = 1.
-
+    np.random.seed(0)
     realised_rms_heights = []
     for i in range(100):
         topography = fourier_synthesis((n, n), (s, s),
