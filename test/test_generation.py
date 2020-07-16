@@ -54,7 +54,7 @@ def test_fourier_synthesis_rms_height_more_wavevectors():
         realised_rms_heights.append(rms(topography))
     # print(abs(np.mean(realised_rms_heights) - rms_height) / rms_height)
     assert abs(np.mean(realised_rms_heights) - rms_height) / \
-           rms_height < 0.1  # TODO: this is not very accurate !
+        rms_height < 0.1  # TODO: this is not very accurate !
 
 
 def test_fourier_synthesis_rms_height():
@@ -123,3 +123,48 @@ def test_fourier_synthesis_linescan_hrms_more_wavevectors():
     #                         - np.mean(realised_rms_heights))**2)))
     assert abs(np.mean(realised_rms_heights) -
                ref_height) / ref_height < 0.1  #
+
+
+def test_fourier_synthesis_3D():
+    """
+    Testing the 3D random field generated via fourier synthesis
+    """
+    n = [101, 101, 101]
+    nx, ny, nz = n
+    s = [101, 101, 101]
+    sx, sy, sz = s
+    g = [sx/nx, sy/ny, sz/nz]
+    gx, gy, gz = g
+    hurst = 0.8
+    rms_height = 0.5
+
+    Topography = fourier_synthesis((nx, ny, nz), (sx, sy, sz),
+                                   hurst, rms_height=rms_height,
+                                   long_cutoff=sx / 3.)
+
+    rmss = np.zeros(nx)
+    for i in range(nx):
+        topo = Topography[i, :, :]
+        rmss[i] = rms(topo)
+
+    mean_rms_x = np.mean(rmss)
+    assert(((mean_rms_x - rms_height) / rms_height) < 1e-5)
+
+    rmss = np.zeros(ny)
+    for i in range(ny):
+        topo = Topography[:, i, :]
+        rmss[i] = rms(topo)
+
+    mean_rms_y = np.mean(rmss)
+    assert(((mean_rms_y - rms_height) / rms_height) < 1e-5)
+
+    rmss = np.zeros(nz)
+    for i in range(nz):
+        topo = Topography[:, :, i]
+        rmss[i] = rms(topo)
+
+    mean_rms_z = np.mean(rmss)
+    assert(((mean_rms_z - rms_height) / rms_height) < 1e-5)
+
+    rms_3d = rms(Topography)
+    assert(((rms_3d - rms_height) / rms_height) < 1e-5)
